@@ -14,3 +14,9 @@ rt.hidden {
 span:hover {
     background-color: yellow;
 }
+
+div#controls {
+    position: fixed;
+    background-color: white;
+    z-index: 100;
+}
