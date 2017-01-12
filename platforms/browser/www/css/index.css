@@ -1,0 +1,16 @@
+ruby {
+    font-size: 2em;
+}
+
+rt {
+    font-size: 60%;
+    color: darkgray;
+}
+
+rt.hidden {
+    display: none;
+}
+
+span:hover {
+    background-color: yellow;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <title>Japanese Language Shadowing</title </head>
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-offset-1">
+                    <form class=" form-horizontal">
+                        <fieldset>
+                            <legend>Playback Controls</legend>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="focusedInput">Time</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="time" type="number" value="0" step="any">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label"></label>
+                                <div class="col-lg-10">
+                                    <button id="play" class="btn btn-primary">Play</button>
+                                    <button id="pause" class="btn btn-info">Pause</button>
+                                    <button id="stop" class="btn btn-danger">Stop</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div id="speech">
+                    <h1>ヒーロー</h1>
+                    <p>
+                        <button class="play btn btn-primary" data-id="id1">Play</button>
+                        <ruby>
+                        <span class='kanji' title="みな">皆</span>さんこんにちは。
+                    </ruby>
+                    </p>
+                    <p>
+                        <button class="play btn btn-primary" data-id="id2">Play</button>
+                        <ruby>
+                        <span class='kanji' title="きょう">今日</span>は
+                        <span class='kanji' title="ぼく">僕</span>の
+                        <span class='kanji' title="ゆめ">夢</span>について
+                        お<span class='kanji' title="はな">話</span>しします。
+                    </ruby>
+                    </p>
+                    <p>
+                        <button class="play btn btn-primary" data-id="id3">Play</button>
+                        <ruby>
+                        <span class='kanji' title="すうじつまえ">数日前</span>の
+                        <span class='kanji' title="ゆめ">夢</span>です。
+                    </ruby>
+                    </p>
+                    <p>
+                        <button class="play btn btn-primary" data-id="id4">Play</button>
+                        <ruby>
+                        <span class='kanji' title="ひとびと">人々</span>が
+                        <span class='kanji' title="のうりょく">能力</span>を
+                        <span class='kanji' title="も">持</span>つ
+                        <span class='kanji' title="せかい">世界</span>が
+                        <span class='kanji' title="ゆめ">夢</span>の
+                        <span class='kanji' title="ぶたい">舞台</span>のでした。
+                    </ruby>
+                    </p>
+                    <p>
+                        <button class="play btn btn-primary" data-id="id5">Play</button>
+                        <ruby>
+                        <span class='kanji' title="のうりょく">能力</span>を
+                        <span class='kanji' title="も">持</span>つものは、ヒーローと
+                        <span class='kanji' title="あくにん">悪人</span>のに
+                        <span class='kanji' title="わ">分</span>かれていました。
+                    </ruby>
+                    </p>
+                </div>
+            </div>
+
+            <script type="text/javascript" src="cordova.js"></script>
+            <script type="text/javascript " src="js/jquery-3.1.1.min.js "></script>
+            <script type="text/javascript " src="js/bootstrap.min.js "></script>
+            <script type="text/javascript " src="js/howler.core.min.js "></script>
+            <script type="text/javascript " src="js/howler.min.js "></script>
+            <script type="text/javascript " src="js/index.js "></script>
+    </body>
+
+</html>
