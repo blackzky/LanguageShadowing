@@ -10,3 +10,7 @@ rt {
 rt.hidden {
     display: none;
 }
+
+span:hover {
+    background-color: yellow;
+}
