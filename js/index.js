@@ -2,15 +2,16 @@ var S;
 $(function() {
     var TIMER;
     var CURRENT = 0;
+    var LAST_VALUE = 0;
     var PAUSED = false;
 
     var sound = new Howl({
         src: ['audio/speech.m4a'],
         sprite: {
             all: [0, 246000],
-            id1: [2600, 2000],
-            id2: [4300, 3900],
-            id3: [8300, 2500]
+            id1: [2600, 1700],
+            id2: [4400, 3700],
+            id3: [8300, 1900]
         }
     });
 
@@ -27,16 +28,19 @@ $(function() {
     // Functions
     function play(e) {
         e.preventDefault();
+        stop(e);
         var id = $(this).data('id').trim();
         sound.play(id);
         console.log(`Playing: ${id}`);
 
         PAUSED = false;
+        CURRENT = 0;
         TIMER = setInterval(iterateTimer, 1);
     }
 
     function playAll(e) {
         e.preventDefault();
+        stop(e);
         if (PAUSED === true) {
             var pos = $('#time').val();
             console.log(`Play starting @ ${pos}`);
@@ -65,9 +69,11 @@ $(function() {
 
     function iterateTimer() {
         if (PAUSED === false) {
-            CURRENT = sound.seek();
-            $('#time').val(CURRENT);
+            LAST_VALUE = sound.seek();
+            if (LAST_VALUE > CURRENT) {
+                CURRENT = sound.seek();
+                $('#time').val(CURRENT);
+            }
         }
-
     }
 });
