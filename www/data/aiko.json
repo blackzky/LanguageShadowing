@@ -8,12 +8,5 @@
         "id4": [10700, 3900],
         "id5": [15000, 4500]
     },
-    "overrides": {
-        "o3": {
-            "src": "audio/konishi-o3.m4a",
-            "sprite": {
-                "override": [0, 246000]
-            }
-        }
-    }
+    "overrides": {}
 }

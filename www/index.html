@@ -13,7 +13,8 @@
     <body>
         <div class="container">
             <div class="row">
-                <div id="controls" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <div id="controls" class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
                     <form class=" form-horizontal">
                         <fieldset>
                             <legend>Playback Controls</legend>
@@ -43,9 +44,13 @@
                         </fieldset>
                     </form>
                 </div>
-                <br />
-
-                <div style="margin-top: 15em;">
+                <div id="speechContainer">
+                    <br />
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <button id="toggleControl" class="btn btn-default btn-lg btn-block">Hide</button>
+                        </div>
+                    </div>
                     <div id="speech">
                         <h1>ヒーロー</h1>
                         <p>
@@ -64,7 +69,7 @@
                             <span class='kanji' title="すうじつまえ">数日前</span>の
                             <span class='kanji' title="ゆめ">夢</span>です。
                         </p>
-                        <p>
+                        <p class="not-mapped-yet">
                             <button class="play btn btn-primary" data-id="id4">Play</button>
                             <span class='kanji' title="ひとびと">人々</span>が
                             <span class='kanji' title="のうりょく">能力</span>を
@@ -73,7 +78,7 @@
                             <span class='kanji' title="ゆめ">夢</span>の
                             <span class='kanji' title="ぶたい">舞台</span>のでした。
                         </p>
-                        <p>
+                        <p class="not-mapped-yet">
                             <button class="play btn btn-primary" data-id="id5">Play</button>
                             <span class='kanji' title="のうりょく">能力</span>を
                             <span class='kanji' title="も">持</span>つものは、ヒーローと

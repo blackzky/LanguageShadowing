@@ -20,3 +20,15 @@ div#controls {
     background-color: white;
     z-index: 100;
 }
+
+div#speechContainer {
+    margin-top: 15em;
+}
+
+div#speechContainer.hiddenControls {
+    margin-top: 0;
+}
+
+p.not-mapped-yet {
+    background-color: lightgray;
+}

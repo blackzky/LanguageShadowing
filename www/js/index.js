@@ -16,17 +16,37 @@ $(function() {
     $('body').on('click', '#stop', stop);
     $('body').on('click', '.play', play);
     $('#voiceModel').on('change', changeVoiceModel);
+    $('body').on('click', '#toggleControl', toggleControl);
 
     // Functions
     function play(e) {
         e.preventDefault();
         stop(e);
-        var id = $(this).data('id').trim();
-        SOUND.play(id);
 
-        PAUSED = false;
-        CURRENT = 0;
-        TIMER = setInterval(iterateTimer, 1);
+        var id = $(this).data('id').trim();
+        var override = OVERRIDES[id];
+        if (override) {
+            var _sound = new Howl({
+                src: OVERRIDES[id].src,
+                sprite: OVERRIDES[id].sprite,
+                onend: function() {
+                    console.log('end');
+                },
+                onload: function() {
+                    console.log('load');
+                }
+            });
+            _sound.play("override");
+            $(this).removeClass('btn-primary');
+            $(this).addClass('btn-info');
+        } else {
+            SOUND.play(id);
+
+            PAUSED = false;
+            CURRENT = 0;
+            TIMER = setInterval(iterateTimer, 1);
+        }
+
     }
 
     function playAll(e) {
@@ -71,6 +91,9 @@ $(function() {
     function changeVoiceModel(e) {
         console.log('loading: ' + this.value);
         $('.btn').prop('disabled', 'disabled');
+        $('.btn').removeClass('btn-info');
+        $('.btn').removeClass('btn-primary');
+        $('.btn').addClass('btn-primary');
         loadVoiceModel(this.value);
     }
 
@@ -89,5 +112,18 @@ $(function() {
                 }
             });
         });
+    }
+
+    function toggleControl(e) {
+        e.preventDefault();
+        var text = $(this).text();
+        if (text === 'Hide') {
+            $(this).text('Show');
+            $('#controls').hide();
+        } else {
+            $(this).text('Hide');
+            $('#controls').show();
+        }
+        $('#speechContainer').toggleClass('hiddenControls');
     }
 });
