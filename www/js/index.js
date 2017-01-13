@@ -1,5 +1,5 @@
 /* jshint esversion:6 */
-
+var SS;
 $(function() {
     'use strict';
 
@@ -14,6 +14,8 @@ $(function() {
     var SPEECH = {};
     var CURRENT_VOICE;
 
+    var RATE = 1.0;
+
     // Events
     loadSpeech('data/speech.hero.json'); // TODO: Allow selection of speech.
     loadVoiceModel($('#voiceModel').val());
@@ -24,6 +26,7 @@ $(function() {
     $('body').on('click', '.play', play);
     $('#voiceModel').on('change', changeVoiceModel);
     $('body').on('click', '#toggleControl', toggleControl);
+    $('body').on('change', '#rate', updateRate);
 
     // Functions
     function play(e) {
@@ -47,11 +50,15 @@ $(function() {
              */
             var _sound = new Howl({
                 src: OVERRIDES[id].src,
+                rate: RATE,
                 sprite: OVERRIDES[id].sprite,
             });
             _sound.play("override");
         } else {
+            console.log(`Current Rate: ${SOUND.rate()}`);
             SOUND.play(id);
+            SOUND.rate(RATE);
+            console.log(`Updated Rate: ${SOUND.rate()}`);
 
             PAUSED = false;
             CURRENT = 0;
@@ -70,6 +77,7 @@ $(function() {
         } else {
             console.log('Play all');
             SOUND.play("all");
+            SOUND.rate(RATE);
         }
         PAUSED = false;
         TIMER = setInterval(iterateTimer, 1);
@@ -105,10 +113,10 @@ $(function() {
         CURRENT_VOICE = this.value;
         console.log('Loading voice: ' + CURRENT_VOICE);
         $('.btn').prop('disabled', true);
+
         setTimeout(function() {
             loadVoiceModel(CURRENT_VOICE);
-        }, 1000);
-        //loadVoiceModel(this.value);
+        }, 500);
     }
 
     function loadVoiceModel(voiceModel) {
@@ -122,6 +130,8 @@ $(function() {
                     clearInterval(TIMER);
                 }
             });
+
+            SS = SOUND; // DEBUG
 
             var _id;
             $(`.play.btn`).each(function(index, btn) {
@@ -179,5 +189,14 @@ $(function() {
             // IMPORTANT to enable tooltip!
             $('.kanji').tooltip({ placement: "top" });
         });
+    }
+
+    function updateRate(e) {
+        /*jshint validthis:true */
+        RATE = this.value;
+        RATE = RATE < 0.5 ? 0.5 : RATE;
+        RATE = RATE > 4 ? 4 : RATE;
+        this.value = RATE;
+        console.log(`Rate changed to: ${RATE}`);
     }
 });
