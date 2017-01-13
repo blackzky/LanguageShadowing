@@ -134,6 +134,9 @@ $(function() {
                 }
             });
             $('.btn').not('.play').prop('disabled', false);
+
+            // Uncomment for FOR MAPPING MODE ONLY
+            // $('body').scrollTop($('button.play:enabled').last().position().top);
         });
     }
 
