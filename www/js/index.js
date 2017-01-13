@@ -1,4 +1,8 @@
+/* jshint esversion:6 */
+
 $(function() {
+    'use strict';
+
     var TIMER;
     var CURRENT = 0;
     var LAST_VALUE = 0;
@@ -7,10 +11,13 @@ $(function() {
     var OVERRIDES = {};
     var SOUND;
 
+    var SPEECH = {};
+
     // Events
     loadVoiceModel($('#voiceModel').val());
+    // TODO: Allow selection of speech.
+    loadSpeech('data/speech.hero.json');
 
-    $('.kanji').tooltip({ placement: "top" });
     $('body').on('click', '#play', playAll);
     $('body').on('click', '#pause', pause);
     $('body').on('click', '#stop', stop);
@@ -20,10 +27,12 @@ $(function() {
 
     // Functions
     function play(e) {
+        /*jshint validthis:true */
         e.preventDefault();
         stop(e);
 
         var id = $(this).data('id').trim();
+        SOUND.stop(id);
         var override = OVERRIDES[id];
         if (override) {
             var _sound = new Howl({
@@ -37,8 +46,6 @@ $(function() {
                 }
             });
             _sound.play("override");
-            $(this).removeClass('btn-primary');
-            $(this).addClass('btn-info');
         } else {
             SOUND.play(id);
 
@@ -46,7 +53,8 @@ $(function() {
             CURRENT = 0;
             TIMER = setInterval(iterateTimer, 1);
         }
-
+        $(this).removeClass('btn-primary');
+        $(this).addClass('btn-success');
     }
 
     function playAll(e) {
@@ -89,11 +97,15 @@ $(function() {
     }
 
     function changeVoiceModel(e) {
-        console.log('loading: ' + this.value);
-        $('.btn').prop('disabled', 'disabled');
-        $('.btn').removeClass('btn-info');
-        $('.btn').removeClass('btn-primary');
-        $('.btn').addClass('btn-primary');
+        /*jshint validthis:true */
+        console.log('Loading voice: ' + this.value);
+        $('.btn').each(function(index, btn) {
+            $(btn).prop('disabled', 'disabled');
+            if ($(btn).hasClass('btn-success')) {
+                $('.btn').not("#toggleControl").removeClass('btn-success');
+                $('.btn').not("#toggleControl").addClass('btn-primary');
+            }
+        });
         loadVoiceModel(this.value);
     }
 
@@ -115,15 +127,43 @@ $(function() {
     }
 
     function toggleControl(e) {
+        /*jshint validthis:true */
         e.preventDefault();
         var text = $(this).text();
-        if (text === 'Hide') {
-            $(this).text('Show');
+        if (text === 'Hide Controls') {
+            $(this).text('Show Controls');
             $('#controls').hide();
         } else {
-            $(this).text('Hide');
+            $(this).text('Hide Controls');
             $('#controls').show();
         }
         $('#speechContainer').toggleClass('hiddenControls');
+    }
+
+    function loadSpeech(path) {
+        $.getJSON(path, function(data) {
+            SPEECH = SPEECH || {};
+
+            SPEECH.title = data.title;
+            SPEECH.sentences = data.sentences;
+
+            $('#speechTitle').text(SPEECH.title);
+
+            var _btn = '';
+            SPEECH.sentences.forEach(function(sentence, index) {
+                _btn = `<button class='play btn btn-primary' data-id='id${index+1}'>Play</button>`;
+                sentence = XRegExp.replaceEach(sentence, [
+                    [/\[(.*?)\]\((.*?)\)/g, function($0) {
+                        var kanji = arguments[1];
+                        var kana = arguments[2];
+                        return `<span class="kanji" title="${kana}">${kanji}</span>`;
+                    }]
+                ]);
+                $('#speechSentences').append(`<p>${_btn} ${sentence}</p>`);
+            });
+
+            // IMPORTANT to enable tooltip!
+            $('.kanji').tooltip({ placement: "top" });
+        });
     }
 });
