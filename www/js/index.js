@@ -12,11 +12,11 @@ $(function() {
     var SOUND;
 
     var SPEECH = {};
+    var CURRENT_VOICE;
 
     // Events
+    loadSpeech('data/speech.hero.json'); // TODO: Allow selection of speech.
     loadVoiceModel($('#voiceModel').val());
-    // TODO: Allow selection of speech.
-    loadSpeech('data/speech.hero.json');
 
     $('body').on('click', '#play', playAll);
     $('body').on('click', '#pause', pause);
@@ -32,18 +32,22 @@ $(function() {
         stop(e);
 
         var id = $(this).data('id').trim();
-        SOUND.stop(id);
         var override = OVERRIDES[id];
         if (override) {
+            // Override Data Format:
+            /*
+            "overrides": {
+                "id3": {
+                    "src": ["audio/konishi-o3.m4a"],
+                    "sprite": {
+                        "override": [3100, 1500]
+                    }
+                }
+            }
+             */
             var _sound = new Howl({
                 src: OVERRIDES[id].src,
                 sprite: OVERRIDES[id].sprite,
-                onend: function() {
-                    console.log('end');
-                },
-                onload: function() {
-                    console.log('load');
-                }
             });
             _sound.play("override");
         } else {
@@ -53,8 +57,7 @@ $(function() {
             CURRENT = 0;
             TIMER = setInterval(iterateTimer, 1);
         }
-        $(this).removeClass('btn-primary');
-        $(this).addClass('btn-success');
+        $(this).removeClass('btn-primary').addClass('btn-success');
     }
 
     function playAll(e) {
@@ -98,15 +101,14 @@ $(function() {
 
     function changeVoiceModel(e) {
         /*jshint validthis:true */
-        console.log('Loading voice: ' + this.value);
-        $('.btn').each(function(index, btn) {
-            $(btn).prop('disabled', 'disabled');
-            if ($(btn).hasClass('btn-success')) {
-                $('.btn').not("#toggleControl").removeClass('btn-success');
-                $('.btn').not("#toggleControl").addClass('btn-primary');
-            }
-        });
-        loadVoiceModel(this.value);
+
+        CURRENT_VOICE = this.value;
+        console.log('Loading voice: ' + CURRENT_VOICE);
+        $('.btn').prop('disabled', true);
+        setTimeout(function() {
+            loadVoiceModel(CURRENT_VOICE);
+        }, 1000);
+        //loadVoiceModel(this.value);
     }
 
     function loadVoiceModel(voiceModel) {
@@ -118,11 +120,20 @@ $(function() {
                 sprite: data.sprite,
                 onend: function() {
                     clearInterval(TIMER);
-                },
-                onload: function() {
-                    $('.btn').prop('disabled', false);
                 }
             });
+
+            var _id;
+            $(`.play.btn`).each(function(index, btn) {
+                _id = $(btn).data('id');
+                $(btn).prop('disabled', data.sprite[_id] ? false : true);
+                $(btn).removeClass('btn-success').addClass('btn-primary');
+                $(btn).parent().removeClass('has-override');
+                if (OVERRIDES[_id]) {
+                    $(btn).parent().addClass('has-override');
+                }
+            });
+            $('.btn').not('.play').prop('disabled', false);
         });
     }
 

@@ -29,6 +29,10 @@ div#speechContainer.hiddenControls {
     margin-top: 0;
 }
 
-p.not-mapped-yet {
-    background-color: lightgray;
+p.has-override {
+    background-color: beige;
+}
+
+p button.play {
+    margin-bottom: 5px;
 }
