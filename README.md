@@ -1,14 +1,9 @@
-# A Blank PhoneGap App
+# Japanese Language Shadowing
+    An application for Japanese Language Shadowing
 
-## Usage
+### Speeches
+    - Hero
 
-### PhoneGap CLI
-
-    $ phonegap create my-app --template blank
-
-### Desktop
-
-In your browser, open the file:
-
-    /www/index.html
-
+### Voices
+    - Aiko
+    - Konish
